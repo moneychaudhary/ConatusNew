@@ -3,7 +3,9 @@ package com.example.money.conatus;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,7 +40,17 @@ public class LandingActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
     private ContextMenuDialogFragment mMenuDialogFragment;
     private GuillotineAnimation mGullotineAnimation;
+    private final static String HOME_FRAGMENT = "home";
+    private final static String EVENT_FRAGMENT = "event";
+    private final static String MAGAZINE_FRAGMENT = "magazine";
+    private final static String GALLERY_FRAGMENT = "galley";
+    private final static String TEAM_FRAGMENT = "team";
+    private final static String ABOUT_FRAGMENT = "about";
+    private final static String CONTACT_FRAGMENT = "contact";
+    private final static String QUERY_FRAGMENT = "query";
     private HomeFragment mHomeFragment;
+    private ContactFragment mContactFragment;
+    private AboutUsFragment mAboutUsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +64,7 @@ public class LandingActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(null);
         }
         mMainPage = (FrameLayout) findViewById(R.id.root);
-        View menu = LayoutInflater.from(this).inflate(R.layout.main_menu_layout,null);
+        View menu = LayoutInflater.from(this).inflate(R.layout.main_menu_layout, null);
         mMenuRecyclerView = (RecyclerView) menu.findViewById(R.id.menu_list);
         mFragmentManager = getSupportFragmentManager();
         mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -67,14 +79,13 @@ public class LandingActivity extends AppCompatActivity {
                 .setActionBarViewForAnimation(mToolbar)
                 .setClosedOnStart(false)
                 .build();
+        mHomeFragment = new HomeFragment();
+        mFragmentManager.beginTransaction().add(R.id.main_fragment_container, mHomeFragment, HOME_FRAGMENT).commit();
 
         mToolbarContextMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mFragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
-                    mMenuDialogFragment.show(mFragmentManager, ContextMenuDialogFragment.TAG);
-                }
-
+                mFragmentManager.beginTransaction().add(mMenuDialogFragment,ContextMenuDialogFragment.TAG).commit();
             }
         });
         RecyclerViewHeader header = (RecyclerViewHeader) menu.findViewById(R.id.header);
@@ -100,17 +111,8 @@ public class LandingActivity extends AppCompatActivity {
         mMenuDialogFragment.setItemClickListener(new OnMenuItemClickListener() {
             @Override
             public void onMenuItemClick(View clickedView, int position) {
-                switch (position) {
-                    case 1:
-                        mToolbarTitle.setText("ABOUT US");
-                        break;
-                    case 2:
-                        mToolbarTitle.setText("CONTACT US");
-                        break;
-                    case 3:
-                        mToolbarTitle.setText("QUERY US");
-                        break;
-                }
+                if(position!=0)
+                 fragmentChange(position,false,null);
             }
         });
     }
@@ -215,13 +217,71 @@ public class LandingActivity extends AppCompatActivity {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    fragmentChange(pos, true, menuTitle.getText().toString());
 
-
-                    mToolbarTitle.setText(menuTitle.getText());
-                    mGullotineAnimation.close();
                 }
             });
         }
+
     }
 
+    private void fragmentChange(int position, boolean fromDrawer, String title) {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        List<Fragment> fragmentList = mFragmentManager.getFragments();
+        for (Fragment fragment : fragmentList) {
+            if(fragment!=mFragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG))
+            transaction.hide(fragment);
+        }
+            if (fromDrawer) {
+                mToolbarTitle.setText(title);
+                switch (position) {
+                    case 0:
+                        if (mHomeFragment == null) {
+                            mHomeFragment = new HomeFragment();
+                            transaction.add(R.id.main_fragment_container, mHomeFragment, HOME_FRAGMENT);
+                        } else {
+                            transaction.show(mFragmentManager.findFragmentByTag(HOME_FRAGMENT));
+                        }
+                        break;
+                    case 5:
+                        if (mContactFragment == null) {
+                            mContactFragment = new ContactFragment();
+                            transaction.add(R.id.main_fragment_container, mContactFragment, CONTACT_FRAGMENT);
+                        } else {
+                            transaction.show(mFragmentManager.findFragmentByTag(CONTACT_FRAGMENT));
+                        }
+                        break;
+                }
+                mGullotineAnimation.close();
+            } else {
+                switch (position) {
+                    case 1:
+                        mToolbarTitle.setText("ABOUT US");
+                        if (mAboutUsFragment == null) {
+                            mAboutUsFragment = new AboutUsFragment();
+                            transaction.add(R.id.main_fragment_container, mAboutUsFragment, ABOUT_FRAGMENT);
+                        } else {
+                            transaction.show(mFragmentManager.findFragmentByTag(ABOUT_FRAGMENT));
+                        }
+                        break;
+                    case 2:
+                        mToolbarTitle.setText("CONTACT US");
+                        if (mContactFragment == null) {
+                            mContactFragment = new ContactFragment();
+                            transaction.add(R.id.main_fragment_container, mContactFragment, CONTACT_FRAGMENT);
+                        } else {
+                            transaction.show(mFragmentManager.findFragmentByTag(CONTACT_FRAGMENT));
+                        }
+                        break;
+                    case 3:
+                        mToolbarTitle.setText("QUERY US");
+                        break;
+                }
+            }
+
+
+            transaction.commit();
+
+
+    }
 }

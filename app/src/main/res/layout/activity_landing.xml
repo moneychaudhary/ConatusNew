@@ -9,12 +9,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/Toolbar"
-            app:contentInsetStart="0dp">
+            android:background="#ffffff"
+            app:contentInsetStart="0dp"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -24,9 +27,9 @@
                 <ImageView
                     android:id="@+id/menu_image"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/ripple"
-                    android:padding="24dp"
+                    android:padding="16dp"
                     android:src="@drawable/men" />
 
                 <com.example.money.conatus.View.MyTextView
@@ -37,14 +40,14 @@
                     android:gravity="center"
                     android:text="HOME"
                     android:textColor="#000000"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/context_menu"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/ripple"
-                    android:padding="24dp"
+                    android:padding="16dp"
                     android:src="@drawable/plus" />
             </LinearLayout>
 

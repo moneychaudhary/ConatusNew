@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ripple"
-            android:padding="24dp"
+            android:padding="16dp"
             android:src="@drawable/men" />
     </android.support.v7.widget.Toolbar>
 
@@ -26,14 +26,14 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/menu_list"
-            android:layout_width="200dp"
+            android:layout_width="350dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal|top"
             android:layout_marginTop="30dp" />
 
         <com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader
             android:id="@+id/header"
-            android:layout_width="250dp"
+            android:layout_width="350dp"
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal|top">
 

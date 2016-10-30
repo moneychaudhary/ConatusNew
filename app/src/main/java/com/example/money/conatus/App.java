@@ -9,17 +9,13 @@ import android.graphics.Typeface;
  */
 
 public class App extends Application {
-    public static Typeface sQuickSandFont;
-    public static Typeface sQuickSandFontBold;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initTypeFace();
+
     }
 
-    private  void initTypeFace(){
-        sQuickSandFont = Typeface.createFromAsset(getAssets(), "Quicksand-Regular.ttf");
-        sQuickSandFontBold = Typeface.createFromAsset(getAssets(), "Quicksand-Bold.ttf");
-    }
+
 }

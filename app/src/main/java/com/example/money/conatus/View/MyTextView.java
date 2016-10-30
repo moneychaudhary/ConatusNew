@@ -1,6 +1,7 @@
 package com.example.money.conatus.View;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
@@ -22,7 +23,7 @@ public class MyTextView extends TextView {
 
     public MyTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setTypeface(App.sQuickSandFontBold);
+        setTypeface(Typeface.SERIF);
 
     }
 }
